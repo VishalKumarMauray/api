@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:api/model/article_model.dart';
 import 'package:api/services/api_service.dart';
+import 'package:api/components/customListTile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
               List<Article>? articles = snapshot.data;
               return ListView.builder(
                 itemCount: articles?.length,
-                itemBuilder: (context,index) => ListTile(title: Text(articles![index].title))
+                itemBuilder: (context,index) => customListTile(articles![index])
               );
             }
             return Center(
