@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:api/model/article_model.dart';
+import 'package:api/services/api_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +24,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  ApiService client = ApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +46,21 @@ class _MyHomePageState extends State<MyHomePage> {
      ),
       body: Container(
         color: Colors.grey[800],
+        child: FutureBuilder(
+          future: client.getArticle(),
+          builder: (BuildContext context,AsyncSnapshot<List<Article>> snapshot){
+            if(snapshot.hasData){
+              List<Article>? articles = snapshot.data;
+              return ListView.builder(
+                itemCount: articles?.length,
+                itemBuilder: (context,index) => ListTile(title: Text(articles![index].title))
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
       ),
     );
   }
